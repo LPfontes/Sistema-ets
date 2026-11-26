@@ -1,0 +1,10 @@
+/* Sistema ETS/UFPB - padrão visual das listagens.
+   IDs são ocultados nas views, mas continuam no banco e nas rotas. */
+.ets-listagem thead th { background: #eef4fb; color: #183e69; font-weight: 700; border-bottom: 2px solid #d5e2f0; }
+.ets-listagem tbody tr:nth-child(odd) > * { background-color: #f5f8fc; }
+.ets-listagem tbody tr:hover > * { background-color: #eaf2fc; }
+.ets-listagem tbody td { vertical-align: middle; }
+.ets-listagem .ets-nome-link,
+.ets-listagem td > a.fw-semibold:not(.btn) { color: #0d6efd !important; text-decoration: none !important; font-weight: 600; }
+.ets-listagem .ets-nome-link:hover,
+.ets-listagem td > a.fw-semibold:not(.btn):hover { color: #084298 !important; text-decoration: underline !important; }
