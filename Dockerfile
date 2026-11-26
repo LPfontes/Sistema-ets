@@ -32,4 +32,4 @@ RUN composer dump-autoload --optimize \
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "cp -n .env.example .env 2>/dev/null || true; php artisan key:generate --force --no-interaction 2>/dev/null || true; php artisan migrate --force --no-interaction || true; php artisan serve --host=0.0.0.0 --port=8000"]
+CMD ["sh", "-c", "if [ ! -f .env ]; then cp .env.example .env && sed -i 's/^DB_/#DB_/g; s/^SESSION_/#SESSION_/g; s/^CACHE_/#CACHE_/g' .env && php artisan key:generate --force --no-interaction; fi; mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache/data storage/logs bootstrap/cache; php artisan config:clear 2>/dev/null || true; php artisan migrate --force --no-interaction || true; php artisan serve --host=0.0.0.0 --port=8000"]
