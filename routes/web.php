@@ -175,6 +175,9 @@ Route::get('/ofertas-cursos/{ofertaCurso}/acompanhamento',
 
 }); // Fim das rotas protegidas por login.
 
+// Rota de Single Sign-On (SSO) a partir do Portal Gateway Unificado
+Route::get('/sso/login', [\App\Http\Controllers\Auth\LoginController::class, 'sso'])->name('sso.login');
+
 // US6: páginas de login acessíveis somente a visitantes não autenticados.
 Route::middleware('guest')->group(function () {
     Route::get('/login', [\App\Http\Controllers\Auth\LoginController::class, 'create'])->name('login');

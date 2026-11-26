@@ -98,6 +98,7 @@
 
     @auth
     <div class="ms-auto d-flex align-items-center gap-3 text-white">
+        <a href="{{ env('GATEWAY_URL', 'http://localhost:4000') }}" class="btn btn-sm btn-outline-warning fw-semibold" title="Voltar ao Portal Gateway Unificado">Portal Gateway</a>
         @if(auth()->user()->foto_perfil)
         <img src="{{ asset('storage/'.auth()->user()->foto_perfil) }}" alt="Foto do perfil" class="rounded-circle object-fit-cover" style="width:36px;height:36px">
         @endif
