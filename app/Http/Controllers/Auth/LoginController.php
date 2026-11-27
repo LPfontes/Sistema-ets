@@ -16,9 +16,31 @@ class LoginController extends Controller
 
     public function store(Request $request)
     {
-        $dados = $request->validate(['email' => 'required|email', 'password' => 'required|string']);
-        if (! Auth::attempt($dados)) {
-            throw ValidationException::withMessages(['email' => 'E-mail ou senha inválidos.']);
+        $dados = $request->validate(['email' => 'required|string', 'password' => 'required|string']);
+        $identificador = strtolower(trim($dados['email']));
+        $adminName = trim((string) env('ADMIN_NAME', 'Administrador do Sistema'));
+        $adminEmail = strtolower(trim((string) env('ADMIN_EMAIL', 'admin@spd.local')));
+        $adminUser = strtolower(trim((string) env('ADMIN_USER', 'admin')));
+        $adminPassword = (string) env('ADMIN_PASSWORD', 'admin123');
+
+        if ($identificador === $adminUser || $identificador === 'admin') {
+            $identificador = $adminEmail;
+        }
+
+        // Garante que o usuário administrador unificado exista e esteja sincronizado
+        if ($identificador === $adminEmail && $dados['password'] === $adminPassword) {
+            User::updateOrCreate(
+                ['email' => $adminEmail],
+                [
+                    'name' => $adminName,
+                    'password' => $adminPassword,
+                    'perfil' => 'admin',
+                ]
+            );
+        }
+
+        if (! Auth::attempt(['email' => $identificador, 'password' => $dados['password']])) {
+            throw ValidationException::withMessages(['email' => 'E-mail/usuário ou senha inválidos.']);
         }
         $request->session()->regenerate();
         $this->registrar($request, 'login');
