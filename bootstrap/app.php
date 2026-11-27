@@ -11,6 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Confia nos cabeçalhos X-Forwarded-* do proxy reverso (Nginx/HTTPS)
+        $middleware->trustProxies(at: '*');
+
         // Apelido para o middleware que verifica o perfil administrador.
         $middleware->alias(['admin' => \App\Http\Middleware\EnsureAdmin::class]);
     })
